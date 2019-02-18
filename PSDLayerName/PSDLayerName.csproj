@@ -7,7 +7,4 @@
   <ItemGroup>
     <Compile Remove="PSDLayerLib.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\" />
-  </ItemGroup>
 </Project>

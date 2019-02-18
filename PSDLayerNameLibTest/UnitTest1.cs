@@ -14,7 +14,7 @@ namespace PSDLayerNameLibTest
         [TestMethod]
         public void TestMethod1()
         {
-            var layerElement = PSDLayerName.PSDLayerNameLib.GetLayerName("./TestData.psd");
+            var layerElement = PSDLayerName.PsdLayerNameLib.GetLayerName("./TestData.psd");
 
             Assert.IsNotNull(layerElement);
 
@@ -22,7 +22,7 @@ namespace PSDLayerNameLibTest
 
             var rootChildren = layerElement.GetChildren();
 
-            Assert.AreEqual(rootChildren.Length, rootChildrenNames.Length);
+            Assert.AreEqual(rootChildrenNames.Length, rootChildren.Length);
 
             for (var i = 0; i < rootChildren.Length; i++)
             {
