@@ -1,69 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace PSDLayerName.Classes
 {
+    [DataContract]
     public class LayerElement
     {
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public bool IsGroup { get; set; }
         public bool IsSectionDivider { get; set; }
 
-        private LayerElement parent;
-        private readonly List<LayerElement> children;
+        private LayerElement _parent;
+
+        [DataMember(Name = "Children")]
+        private readonly List<LayerElement> _children;
 
         public LayerElement()
         {
+            Name = "";
             IsGroup = false;
             IsSectionDivider = false;
 
-            parent = null;
-            children = new List<LayerElement>();
+            _parent = null;
+            _children = new List<LayerElement>();
         }
 
         public void AddChild(LayerElement element)
         {
-            children.Add(element);
+            _children.Add(element);
         }
 
         public LayerElement GetChild(int index)
         {
-            if (index >= children.Count)
-            {
-                return null;
-            }
-
-            return children[index];
+            return index >= _children.Count ? null : _children[index];
         }
 
         public LayerElement[] GetChildren()
         {
-            return children.ToArray();
+            return _children.ToArray();
         }
 
         public LayerElement GetParent()
         {
-            return parent;
+            return _parent;
         }
 
         public void RemoveChild(int index)
         {
-            if (index >= children.Count)
+            if (index >= _children.Count)
             {
                 return;
             }
 
-            children.RemoveAt(index);
+            _children.RemoveAt(index);
+        }
+
+        public void RemoveChild(LayerElement element)
+        {
+            _children.Remove(element);
         }
 
         public void RemoveParent()
         {
-            parent = null;
+            _parent = null;
         }
 
         public void SetParent(LayerElement element)
         {
-            parent = element;
+            _parent = element;
+        }
+
+        public string Serialize()
+        {
+            using (var stream = new MemoryStream())
+            {
+                var serializer = new DataContractJsonSerializer(GetType());
+                serializer.WriteObject(stream, this);
+
+                return Encoding.UTF8.GetString(stream.ToArray());
+            }
         }
     }
 }
