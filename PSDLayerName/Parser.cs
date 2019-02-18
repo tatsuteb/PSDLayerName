@@ -10,9 +10,9 @@ using PSDLayerName.Classes;
 
 namespace PSDLayerName
 {
-    public static class PsdLayerNameLib
+    public static class Parser
     {
-        public static LayerElement GetLayerName(string filePath)
+        public static LayerElement Parse(string filePath)
         {
             var layerElements = new List<LayerElement>();
 

@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSDLayerName", "PSDLayerName\PSDLayerName.csproj", "{A68C376F-857C-41D7-B47F-635D3D3F66A9}"
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSDLayerName", "PSDLayerName\PSDLayerName.csproj", "{A68C376F-857C-41D7-B47F-635D3D3F66A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSDLayerNameLibTest", "PSDLayerNameLibTest\PSDLayerNameLibTest.csproj", "{088553A5-EAB6-4562-8CB6-36F614E24A83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSDLayerNameTest", "PSDLayerNameLibTest\PSDLayerNameTest.csproj", "{088553A5-EAB6-4562-8CB6-36F614E24A83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +20,11 @@ Global
 		{088553A5-EAB6-4562-8CB6-36F614E24A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{088553A5-EAB6-4562-8CB6-36F614E24A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{088553A5-EAB6-4562-8CB6-36F614E24A83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5775E21C-CAC3-4DC2-BF2A-3CABDDE5E126}
 	EndGlobalSection
 EndGlobal
