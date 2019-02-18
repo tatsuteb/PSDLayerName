@@ -8,11 +8,9 @@ namespace PSDLayerName
 {
     public static class PSDLayerNameLib
     {
-        public static string GetLayerName(string filePath)
+        public static LayerElement GetLayerName(string filePath)
         {
-            var rootElement = new LayerElement();
-            var layerNameJson = "";
-            var layerNameArray = new List<string>();
+            var layerElements = new List<LayerElement>();
 
             using (var fs = new FileStream($@"{filePath}", FileMode.Open, FileAccess.Read))
             {
@@ -23,12 +21,12 @@ namespace PSDLayerName
                 // Signature
                 ReadString(out var fileSignature, fs, 4, Encoding.UTF8);
                 if (fileSignature != "8BPS")
-                    return layerNameJson;
+                    return new LayerElement();
 
                 // Version
                 ReadInt16(out var version, fs, 2);
                 if (version != 1)
-                    return layerNameJson;
+                    return new LayerElement();
 
                 // Reserved
                 fs.Seek(6, SeekOrigin.Current);
@@ -76,7 +74,6 @@ namespace PSDLayerName
                 layerCount = Math.Abs(layerCount);
 
                 // Layer records
-                var parentElement = rootElement;
                 for (var i = 0; i < layerCount; i++)
                 {
                     // Layer record -> Rectangle (Skip)
@@ -123,9 +120,6 @@ namespace PSDLayerName
 
                     //Skip UTF8 layer name
                     fs.Seek(layerNameCount, SeekOrigin.Current);
-                    //Get layer name
-                    //ReadString(out var layerName, fs, layerNameCount, Encoding.UTF8);
-                    //layerNameJson += Encoding.UTF8.GetString(layerNameByteArray);
 
                     extraDataLength -= layerNameCount + 1;
 
@@ -142,7 +136,7 @@ namespace PSDLayerName
 
                     // Additional Layer Information
                     var layerElement = new LayerElement();
-                    parentElement.AddChild(layerElement);
+                    layerElements.Add(layerElement);
                     while (true)
                     {
                         // Signature
@@ -188,8 +182,6 @@ namespace PSDLayerName
 
                             // Add unicode layer name
                             layerElement.Name = unicodeLayerName;
-                            layerElement.SetParent(parentElement);
-                            layerNameArray.Add(unicodeLayerName);
 
                             fs.Seek(dataLength - 4 - count, SeekOrigin.Current);
                         }
@@ -198,22 +190,17 @@ namespace PSDLayerName
                             if (!ReadInt32(out var type, fs, 4))
                                 break;
 
-                            if (type == 1 || type == 2)
+                            switch (type)
                             {
-                                layerElement.IsGroup = true;
-                                parentElement = layerElement;
-                            }
-                            else if (type == 3)
-                            {
-                                layerElement.IsSectionDivider = true;
-                                if (layerElement.GetParent() != null)
+                                case 1:
+                                case 2:
+                                    layerElement.IsGroup = true;
+                                    break;
+                                case 3:
                                 {
-                                    parentElement = layerElement.GetParent();
+                                    layerElement.IsSectionDivider = true;
+                                    break;
                                 }
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Unknown type.TYPE:{type}");
                             }
 
                             fs.Seek(dataLength - 4, SeekOrigin.Current);
@@ -237,10 +224,31 @@ namespace PSDLayerName
                 }
             }
             
-            layerNameArray.Reverse();
-            layerNameJson = String.Join(",", layerNameArray);
+            layerElements.Reverse();
 
-            return layerNameJson;
+            // Build layer tree
+            var rootElement = new LayerElement();
+            var parentElement = rootElement;
+            foreach (var element in layerElements)
+            {
+                if (element.IsSectionDivider)
+                {
+                    parentElement = parentElement.GetParent();
+
+                    continue;
+                }
+
+                element.SetParent(parentElement);
+
+                parentElement.AddChild(element);
+
+                if (element.IsGroup)
+                {
+                    parentElement = element;
+                }
+            }
+            
+            return rootElement;
         }
 
 
