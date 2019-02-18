@@ -159,7 +159,10 @@ namespace PSDLayerName
 
         private static LayerElement BuildLayerTree(LayerElement[] layerElements)
         {
-            var rootElement = new LayerElement();
+            var rootElement = new LayerElement()
+            {
+                IsGroup = true
+            };
 
             var parentElement = rootElement;
             foreach (var element in layerElements)
