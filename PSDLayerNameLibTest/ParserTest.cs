@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PSDLayerName;
 
@@ -23,6 +24,17 @@ namespace PSDLayerNameTest
             {
                 Assert.AreEqual(rootChildrenNames[i], rootChildren[i].Name);
             }
+        }
+
+        [TestMethod]
+        public void TestParse_InvalidFilePath()
+        {
+            var layerElement = Parser.Parse("");
+
+            Assert.IsNotNull(layerElement);
+            Assert.AreEqual(layerElement.Name, "");
+            Assert.IsNull(layerElement.Parent);
+            Assert.AreEqual(layerElement.GetChildren().Any(), false);
         }
     }
 }
