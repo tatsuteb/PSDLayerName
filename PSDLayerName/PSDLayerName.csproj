@@ -1,13 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Authors>tatsuteb</Authors>
     <Product>PSDLayerNameParser</Product>
+    <Title>PSDLayerNameParser</Title>
     <Description>Build layer and layer group tree fron psd file.
 Correspond to the layer name of Japanese.</Description>
     <Copyright>tatsuteb</Copyright>
-    <PackageLicenseUrl>https://github.com/tatsuteb/PSDLayerName/blob/master/LICENSE</PackageLicenseUrl>
+    <!-- <PackageLicenseUrl>https://github.com/tatsuteb/PSDLayerName/blob/master/LICENSE</PackageLicenseUrl> -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tatsuteb/PSDLayerName</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tatsuteb/PSDLayerName</RepositoryUrl>
     <PackageTags>psd,layer,group,japanese</PackageTags>
