@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace PSDLayerName.Classes
+namespace PSDLayerName
 {
     [DataContract]
     public class LayerElement
@@ -16,19 +16,19 @@ namespace PSDLayerName.Classes
         [DataMember]
         public bool IsGroup { get; set; }
         public bool IsSectionDivider { get; set; }
-
-        private LayerElement _parent;
+        public LayerElement Parent { get; set; }
 
         [DataMember(Name = "Children")]
         private readonly List<LayerElement> _children;
+
 
         public LayerElement()
         {
             Name = "";
             IsGroup = false;
             IsSectionDivider = false;
+            Parent = null;
 
-            _parent = null;
             _children = new List<LayerElement>();
         }
 
@@ -47,11 +47,6 @@ namespace PSDLayerName.Classes
             return _children.ToArray();
         }
 
-        public LayerElement GetParent()
-        {
-            return _parent;
-        }
-
         public void RemoveChild(int index)
         {
             if (index >= _children.Count)
@@ -65,16 +60,6 @@ namespace PSDLayerName.Classes
         public void RemoveChild(LayerElement element)
         {
             _children.Remove(element);
-        }
-
-        public void RemoveParent()
-        {
-            _parent = null;
-        }
-
-        public void SetParent(LayerElement element)
-        {
-            _parent = element;
         }
 
         public string Serialize()

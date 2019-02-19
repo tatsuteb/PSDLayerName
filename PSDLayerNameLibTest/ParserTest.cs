@@ -1,10 +1,4 @@
-using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using PSDLayerName;
 
 namespace PSDLayerNameTest
